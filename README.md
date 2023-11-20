@@ -1,7 +1,7 @@
 # End-to-End-MLOps-CI-CD-Pipeline
 
 ## AWS SageMaker
-Creating a notebook instance in AWS SageMaker </br>
+Creating a notebook instance in AWS SageMaker </br></br>
 ![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/5c06d7cb-4f3e-4506-88f3-18029f04fcb9)
 
 ### Upload the Notebook to Notebook Instance
