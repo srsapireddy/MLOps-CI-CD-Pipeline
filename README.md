@@ -138,10 +138,10 @@ Centralized repository or a platform for managing and serving machine learning f
   - Loading time is getting more critical for churning with time.
 
 ## Software engineering challenges
-• Environmental Changes: Some libraries used may run out of support.
-• Out of service Cloud
-• Compute resources (CPU/GPU/memory)
-• Security and Privacy
+• Environmental Changes: Some libraries used may run out of support. </br>
+• Out of service Cloud </br>
+• Compute resources (CPU/GPU/memory) </br>
+• Security and Privacy </br>
 
 
 
