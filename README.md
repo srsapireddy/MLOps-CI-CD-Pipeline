@@ -106,7 +106,8 @@ Here, the domain is the shared space. Inside this domain, we can have a range of
   - • Generated report by monitoring jobs can be saved in Amazon S3 for further analysis.
   - View model metrics via Amazon CloudWatch, consume notifications to trigger alarms or corrective actions, such as retraining the model or auditing data
   - Integrates with other visualization tools, including Tensorboard, Amazon QuickSight, and Tableau.
-
+  - Use AWS EventBridge Service to trigger a timer to run the pipelines on SageMaker.
+    
 ## Feature Store
 
 
