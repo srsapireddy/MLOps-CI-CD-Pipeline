@@ -103,13 +103,45 @@ Here, the domain is the shared space. Inside this domain, we can have a range of
   - Automatically kick off monitoring jobs to analyze model predictions during a given period.
   - Multiple schedules on a SageMaker endpoint.
 • Reports and alerts
-  - • Generated report by monitoring jobs can be saved in Amazon S3 for further analysis.
+  - Generated reports by monitoring jobs can be saved in Amazon S3 for further analysis.
   - View model metrics via Amazon CloudWatch, consume notifications to trigger alarms or corrective actions, such as retraining the model or auditing data
   - Integrates with other visualization tools, including Tensorboard, Amazon QuickSight, and Tableau.
   - Use AWS EventBridge Service to trigger a timer to run the pipelines on SageMaker.
     
 ## Feature Store
+Centralized repository or a platform for managing and serving machine learning features. </br>
 
+### Key Benefits 
+• Improved model accuracy and consistency
+• Faster model development and deployment
+• Better governance and compliance
+• Increased collaboration and knowledge sharing
+
+### Amazon SageMaker Feature Store
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/771886a4-a09f-4f10-9786-90ff8196719a)
+#### Ingest data from many sources
+✓ Ingest features using streaming data sources like Amazon Kinesis Data Firehose
+✓ Create features using data preparation tools such as Amazon SageMaker Data Wrangler & and store them directly in SageMaker Feature Store
+#### Search and discovery
+✓ Tags and index features
+✓ Browsing the feature catalog
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/af22fdae-c28f-4579-b06e-c524a7bb7347)
+
+## AWS MLOps - Post Deployment Challenges
+* Data Drift: Data drift is the change in data distribution over time.
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/7e334030-3dd6-4a7b-8b2d-1c8be7e9ddf9)
+• We should probably retrain our model as we can see that Movie or TV streaming service is getting more and more popular with time.
+• Example: Iris flower dataset (Credits: Evidently AI)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/d74657e1-65c1-4ef1-943c-1e3395904f8f)
+* Concept Drift: After some time, we can observe that the importance of different features changes with time. So, the model needs to be re-trained
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/26ff464c-153d-472b-96f0-50e808642471)
+  - Loading time is getting more critical for churning with time.
+
+## Software engineering challenges
+• Environmental Changes: Some libraries used may run out of support.
+• Out of service Cloud
+• Compute resources (CPU/GPU/memory)
+• Security and Privacy
 
 
 
