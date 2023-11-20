@@ -72,9 +72,27 @@ The Amazon SageMaker is divided into three blocks:</br>
 Amazon SageMaker can be integrated with AWS ground truth to collect the incoming data from the customers. We can reuse this data to retrain the model after 6 months to deploy another version of the ML model.
 
 ## AWS for MLOps
+### Amazon SageMaker Pipelines
+• First purpose-built CI/CD service for machine learning
+• With SageMaker Pipelines, you can create, automate, and manage end-to-end ML workflows at scale.
+• Orchestrating workflows across each step of the machine-learning process
 
+### Amazon SageMaker Studio
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/2ef4164e-04fa-4afc-9bc4-638bfc3cc3fa)
 
+Here, the domain is the shared space. Inside this domain, we can have a range of engineering teams: a data engineering team with 2 users and a data scientist team with 3 users. In this way, we can add multiple users and assign required permissions.
 
+### Key Features: 
+* Compose, manage, and reuse ML workflows
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/055a38db-7852-4f5f-9c80-ffb572e3642f)
+* Choose the best models for deploying into production
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/8714f95a-9c12-4b9b-985f-96974f8d3370)
+* Automatic tracking of models: AWS CloudWatch
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/51ca334f-b650-41c0-a444-f1f7e38ab06b)
+* Bring CI/CD to machine learning
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/e3569a26-bb08-4911-ba7c-09cd7563651d)
+
+## ML Model Monitoring
 
 
 
