@@ -59,6 +59,20 @@ Our models are deployed to a SageMaker endpoint. And we need to invoke that endp
 ### The following diagram shows how you train and deploy a model with Amazon SageMaker:
 ![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/94389888-db0a-43c3-a160-022e0648a1d8)
 
+The client data will be stored in the S3 bucket as our storage platform. </br>
+The Amazon SageMaker is divided into three blocks:</br>
+1. Model training: Our data scientists will write two kinds of scripts. </br>
+   a. Helper Code: Define where the data comes from and how we are preprocessing the data. What kind of algorithm and hyperparameter tuning we are using are defined here.</br>
+   b. Training Code: Nothing but the algorithm. AWS has all the training images in the ECR container registry (no need to pip install the packages). We need to pull the docker image to start doing the model training.
+   Once the model training is done automatically, the ML code will be saved into the S3 bucket in the model.tar.gz file format.</br>
+2. Deployment/ Hosting
+   a. Helper Code: We mention to which machine we deploy our ML Model. How many devices are we deploying our model to? </br>
+   b. Inference Code: This code is fetched from the ECR Container registry, which will be responsible for creating the endpoint. End Point is an API developers use to create client-side applications, which will be our REST API. </br>
+3. EC2/ DCR Container Registry: Place where the dockerized images are stored. </br>
+Amazon SageMaker can be integrated with AWS ground truth to collect the incoming data from the customers. We can reuse this data to retrain the model after 6 months to deploy another version of the ML model.
+
+## AWS for MLOps
+
 
 
 
