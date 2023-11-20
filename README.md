@@ -40,6 +40,58 @@ Our models are deployed to a SageMaker endpoint. And we need to invoke that endp
 * Pipeline management
 * Collaboration and communication capabilities
 
+### AWS ML Stack
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/afaef614-28a9-4f26-9885-5365d8a4cfc9)
+
+### AWS SageMaker: Integrated APIs
+* Data scientists and developers can quickly and easily build and train machine learning models and then directly deploy them into a production-ready hosted environment
+* Integrated Jupyter authoring notebook instance for easy access to your data sources for exploration and analysis
+* Zero setups for data exploration
+* Algorithms designed for huge datasets
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/6dca5ab7-6839-4824-8db0-dad05363297f)
+
+### In Built Algorithms in SageMaker
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/e76c8429-aa3b-40f3-b07b-d522d5974811)
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/610ca717-133c-4b73-9fe8-b10fcadb6a6d)
+#### ML Frameworks Supported
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/d1aa2e74-333d-449a-a944-f1e37f31969a)
+
+### The following diagram shows how you train and deploy a model with Amazon SageMaker:
+![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/94389888-db0a-43c3-a160-022e0648a1d8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
