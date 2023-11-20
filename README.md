@@ -92,9 +92,22 @@ Here, the domain is the shared space. Inside this domain, we can have a range of
 * Bring CI/CD to machine learning
 ![image](https://github.com/srsapireddy/End-to-End-MLOps-CI-CD-Pipeline/assets/32967087/e3569a26-bb08-4911-ba7c-09cd7563651d)
 
-## ML Model Monitoring
+### ML Model Monitoring
+• Data drift and concept drift: Data collection and monitoring
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/31fd732d-fcf9-49ff-97bf-068cf06bc6bc)
+• Serving issues
+• Built-in analysis
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/b1f2bc10-13da-457e-b416-005d0302bc3c)
+• Monitoring schedule
+  - Monitor your ML models by scheduling monitoring jobs through Amazon SageMaker Model Monitor.
+  - Automatically kick off monitoring jobs to analyze model predictions during a given period.
+  - Multiple schedules on a SageMaker endpoint.
+• Reports and alerts
+  - • Generated report by monitoring jobs can be saved in Amazon S3 for further analysis.
+  - View model metrics via Amazon CloudWatch, consume notifications to trigger alarms or corrective actions, such as retraining the model or auditing data
+  - Integrates with other visualization tools, including Tensorboard, Amazon QuickSight, and Tableau.
 
-
+## Feature Store
 
 
 
