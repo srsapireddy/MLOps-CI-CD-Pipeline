@@ -634,6 +634,136 @@ if __name__ == "__main__":
     pd.DataFrame(test).to_csv(f"{base_dir}/test/test.csv", header=False, index=False)
 ```
 
+### evaluation.py file
+```
+"""Evaluation script for measuring mean squared error."""
+import json
+import logging
+import pathlib
+import pickle
+import tarfile
+
+import numpy as np
+import pandas as pd
+import xgboost
+
+from sklearn.metrics import mean_squared_error
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler())
+
+
+
+if __name__ == "__main__":
+    logger.debug("Starting evaluation.")
+    model_path = "/opt/ml/processing/model/model.tar.gz"
+    with tarfile.open(model_path) as tar:
+        tar.extractall(path=".")
+
+    logger.debug("Loading xgboost model.")
+    model = pickle.load(open("xgboost-model", "rb"))
+
+    logger.debug("Reading test data.")
+    test_path = "/opt/ml/processing/test/test.csv"
+    df = pd.read_csv(test_path, header=None)
+
+    logger.debug("Reading test data.")
+    y_test = df.iloc[:, 0].to_numpy()
+    df.drop(df.columns[0], axis=1, inplace=True)
+    X_test = xgboost.DMatrix(df.values)
+
+    logger.info("Performing predictions against test data.")
+    predictions = model.predict(X_test)
+
+    logger.debug("Calculating mean squared error.")
+    mse = mean_squared_error(y_test, predictions)
+    std = np.std(y_test - predictions)
+    report_dict = {
+        "regression_metrics": {
+            "mse": {
+                "value": mse,
+                "standard_deviation": std
+            },
+        },
+    }
+
+    output_dir = "/opt/ml/processing/evaluation"
+    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+
+    logger.info("Writing out evaluation report with mse: %f", mse)
+    evaluation_path = f"{output_dir}/evaluation.json"
+    with open(evaluation_path, "w") as f:
+        f.write(json.dumps(report_dict))
+```
+
+### Process Tab
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/859f0790-7fd0-4acb-b197-9f34020b4000)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/893e8386-ebd5-4254-b78b-97a0551737d8)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/45cb1fcc-c84d-46b1-a358-83fc9f791251)
+
+We can click the Tabs after executing the pipeline to check the logs </br>
+
+### Training Tab
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/ab38f9c2-a7c9-4633-8f48-5ab9a44f60a4)
+
+### Model Registry Tab
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/c8ca0772-22a1-41ab-8190-cfbe10d0a089)
+
+## Deploying Model to Development Environment
+Go to Model Groups </br>
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/242d3d22-7012-45d0-a400-0230433e2d02)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/aeb7c38d-3594-400a-ba4d-8cd692bd6ab5)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/df2a0059-a631-4cfb-8456-193575eb67cd)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/4741557f-434a-4c6a-a0dd-a2a3ef3862e2)
+
+Here, we can see that an endpoint is created. That is how our model is getting deployed.
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/27883ddc-c8b7-4918-a32b-5f2fe65a9515)
+Deployed Model
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/05b3399f-badf-4c7c-8460-c04bd24c9db9)
+
+You can use the code I've included below to invoke the deployed model.
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/ffcc981c-d367-4e1c-8f85-7ef538ca4a5c)
+Change the endpoint name to "mlops-nov-masterclass-staging"
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/fd103dd1-f41f-4feb-b868-aa15a47e5f75)
+
+
+## Model Deploy Repository
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/8c90b285-9cfd-46de-89ba-59f6c911a362)
+Here, we take the model from the model registry and deploy it to the production </br>
+### buildspec.yml file:
+```
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      # Upgrade AWS CLI to the latest version
+      - pip install --upgrade --force-reinstall "botocore>1.21.30" "boto3>1.18.30" "awscli>1.20.30"
+
+  build:
+    commands:
+      # Export the staging and production configuration files
+      - python build.py --model-execution-role "$MODEL_EXECUTION_ROLE_ARN" --model-package-group-name "$SOURCE_MODEL_PACKAGE_GROUP_NAME" --sagemaker-project-id "$SAGEMAKER_PROJECT_ID" --sagemaker-project-name "$SAGEMAKER_PROJECT_NAME" --s3-bucket "$ARTIFACT_BUCKET" --export-staging-config $EXPORT_TEMPLATE_STAGING_CONFIG --export-prod-config $EXPORT_TEMPLATE_PROD_CONFIG
+
+      # Package the infrastucture as code defined in endpoint-config-template.yml by using AWS CloudFormation.
+      # Note that the Environment Variables like ARTIFACT_BUCKET, SAGEMAKER_PROJECT_NAME etc,. used below are expected to be setup by the
+      # CodeBuild resrouce in the infra pipeline (in the ServiceCatalog product)
+      - aws cloudformation package --template endpoint-config-template.yml --s3-bucket $ARTIFACT_BUCKET --output-template $EXPORT_TEMPLATE_NAME
+
+      # Print the files to verify contents
+      - cat $EXPORT_TEMPLATE_STAGING_CONFIG
+      - cat $EXPORT_TEMPLATE_PROD_CONFIG
+
+artifacts:
+  files:
+    - $EXPORT_TEMPLATE_NAME
+    - $EXPORT_TEMPLATE_STAGING_CONFIG
+    - $EXPORT_TEMPLATE_PROD_CONFIG
+```
+
 
 
 ## Use Case: Predicting the age of abalone
