@@ -717,19 +717,19 @@ Go to Model Groups </br>
 ![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/df2a0059-a631-4cfb-8456-193575eb67cd)
 ![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/4741557f-434a-4c6a-a0dd-a2a3ef3862e2)
 
-Here, we can see that an endpoint is created. That is how our model is getting deployed.
+Here, we can see that an endpoint is created. That is how our model is getting deployed. </br>
 ![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/27883ddc-c8b7-4918-a32b-5f2fe65a9515)
-Deployed Model
+Deployed Model </br>
 ![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/05b3399f-badf-4c7c-8460-c04bd24c9db9)
 
-You can use the code I've included below to invoke the deployed model.
+You can use the code I've included below to invoke the deployed model. </br>
 ![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/ffcc981c-d367-4e1c-8f85-7ef538ca4a5c)
-Change the endpoint name to "mlops-nov-masterclass-staging"
-![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/fd103dd1-f41f-4feb-b868-aa15a47e5f75)
+Change the endpoint name to "mlops-nov-masterclass-staging" </br>
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/fd103dd1-f41f-4feb-b868-aa15a47e5f75) </br>
 
 
-## Model Deploy Repository
-![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/8c90b285-9cfd-46de-89ba-59f6c911a362)
+## Model Deploy Repository </br>
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/8c90b285-9cfd-46de-89ba-59f6c911a362) </br>
 Here, we take the model from the model registry and deploy it to the production </br>
 ### buildspec.yml file:
 ```
@@ -764,6 +764,50 @@ artifacts:
     - $EXPORT_TEMPLATE_PROD_CONFIG
 ```
 
+### test folder: buildspec.yml file
+```
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+  build:
+    commands:
+      # Call the test python code
+      - python test/test.py --import-build-config $CODEBUILD_SRC_DIR_BuildArtifact/staging-config-export.json --export-test-results $EXPORT_TEST_RESULTS
+      # Show the test results file
+      - cat $EXPORT_TEST_RESULTS
+
+artifacts:
+  files:
+    - $EXPORT_TEST_RESULTS
+```
+
+### Deploying ML Model into production using AWS CodePipeline
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/7a332653-1cf8-415e-82e5-022b7512784e)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/980df590-fdf5-4103-a63a-3a749f59f9d6)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/e8169e94-d46d-49d2-9d7f-433886cb4127) </br>
+Here, we can see that we have the Approval Deployment stage. Review and deploy the ML Model into production. </br>
+Checking the deployment stage in SageMaker Studio. </br>
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/56fb4530-ad23-42c5-9050-b6bfe8afb75a) </br>
+Deployed Prod Env </br>
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/5ee7e82d-b2c3-4c28-ae07-e3fd68afae7d)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/5fd71808-f920-45d7-88c7-4c33f272dd57)
+
+### Triggering the pipeline using CodeCommit
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/e7731e47-201f-445f-afbf-4ebf22c0ab0c)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/e00fd075-d584-4ee2-bb4a-00347c44508f) </br>
+Change the code in Pipelines Folder: Edit pipelines.py file </br>
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/23d06f7c-81f6-42f5-9a4f-e7302971077b)
+
+### Check SageMaker Console and pull the latest changes
+We can see that the pipeline is executing again after running (double clicking with new changes to the code) </br>
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/b0a305a5-7e38-49d0-a9a5-f16c44ec0411)
+
+### Generate inference for the production model
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/cfa2aec7-0417-4ef4-a600-58834f6775c1)
+![image](https://github.com/srsapireddy/MLOps-CI-CD-Pipeline/assets/32967087/9a8a37e1-7bd9-4a28-a46a-38e51e3c4bf2)
 
 
 ## Use Case: Predicting the age of abalone
